@@ -149,8 +149,8 @@ in {
       # this file is expected in /etc/qemu and not sysconfdir (/var/lib)
       etc."qemu/bridge.conf".text = lib.concatMapStringsSep "\n" (e:
         "allow ${e}") cfg.allowedBridges;
-      systemPackages = with pkgs; [ libvirt libressl.nc iptables cfg.qemuPackage ];
-      etc.ethertypes.source = "${pkgs.iptables}/etc/ethertypes";
+      systemPackages = with pkgs; [ libvirt libressl.nc config.networking.firewall.package cfg.qemuPackage ];
+      etc.ethertypes.source = "${config.networking.firewall.package}/etc/ethertypes";
     };
 
     boot.kernelModules = [ "tun" ];
